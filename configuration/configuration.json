@@ -1,0 +1,16 @@
+{
+    "client_id": "container",
+    "hsm_user": "PRIMUS123",
+    "hsms": [
+        {
+            "name": "hsm1",
+            "host": "hsm1.company.com",
+            "port": 1234
+        },
+        {
+            "name": "hsm2",
+            "host": "hsm2.company.com",
+            "port": 1234
+        }
+    ]
+}
