@@ -1,0 +1,36 @@
+version: "3"
+networks:
+  security-zone:
+    driver: bridge
+services:
+  ejbca:
+    image: registry.primekey.com/testing/ejbca-ee
+    depends_on:
+      - hsm-driver
+    networks:
+      - security-zone
+    environment:
+      - TLS_SETUP_ENABLED=simple
+      - P11SERVER=hsm-driver
+      - PKCS11_PROXY_SOCKET=tcp://hsm:7121
+    ports:
+      - 8443:8443
+    volumes:
+      - hsm-driver:/opt/primekey/p11proxy-client
+  hsm-driver:
+    image: realiserad/primus-pkcs11-sidecar
+    hostname: hsm
+    networks:
+      - security-zone
+    environment:
+      - SETUP_PASSWORD=
+      - HSM_USER=
+      - PKCS11_PASSWORD=
+      # If you are using the cloud HSM, you also need to specify proxy credentials
+      #- PROXY_USER=
+      #- PROXY_PASSWORD=
+    volumes:
+      - hsm-driver:/opt/primekey/p11proxy-client
+      - ./configuration:/etc/primus
+volumes:
+  hsm-driver:

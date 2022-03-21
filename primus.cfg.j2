@@ -1,0 +1,37 @@
+version = "1.0";
+primus:
+{
+  wait_delay = 250;
+  wait_max_tries = 5;
+  hsms:
+  {
+{%- for hsm in hsms %}
+     {{ hsm.name }}:
+     {
+        host = "{{ hsm.host }}";
+        port = "{{ hsm.port }}";
+        slots:
+        {
+           slot0:
+           {
+              client_id = "{{ client_id }}";
+              user_name = "{{ hsm_user }}";
+              id = 0;
+           };
+        };
+     };
+{%- endfor %}
+  }
+  log:
+  {
+    file = "/tmp/primus.log";
+    trace_linenumber = false;
+    trace_timestamp = true;
+    trace_function = true;
+    trace_inout = false;
+    trace_pid = true;
+    trace_filename = false;
+    trace_mask = 0x00;
+    trace_level = 4; /* 0-7 */
+  };
+};
