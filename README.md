@@ -17,9 +17,9 @@ You also need access to PrimeKey's registry to pull the proprietary EJBCA Enterp
 Build
 =====
 
-#. Put the file ``PrimusAPI_PKCS11-X-1.7.36-rhel8-x86_64.tar.gz`` in the same folder as the Dockerfile.
+1. Put the file ``PrimusAPI_PKCS11-X-1.7.36-rhel8-x86_64.tar.gz`` in the same folder as the Dockerfile.
 
-#. Run the following command to build the container:
+2. Run the following command to build the container:
 
     docker build -t realiserad/primus-pkcs11-sidecar .
 
@@ -30,9 +30,9 @@ When the container starts it will read the file ``configuration.json`` stored in
 
 The ``configuration`` folder should be made available to the container using a volume mount. The volume is also used to store the PKCS#11 configuration file (``primus.cfg``) and the permanent PIN (``.secrets.cfg``) created when the container starts.
 
-#. Edit the configuration file ``configuration/configuration.json`` and specify the partition and HSMs to use.
+1. Edit the configuration file ``configuration/configuration.json`` and specify the partition and HSMs to use.
 
-#. Edit ``docker-compose.yml`` and type in the credentials you received from Securosys. For example:
+2. Edit ``docker-compose.yml`` and type in the credentials you received from Securosys. For example:
 
     hsm-driver:
         environment:
@@ -40,7 +40,7 @@ The ``configuration`` folder should be made available to the container using a v
             - HSM_USER=PRIMUS123
             - PKCS11_PASSWORD=PRIMUS
 
-#. Run the container with EJBCA Enterprise using Docker Compose:
+3. Run the container with EJBCA Enterprise using Docker Compose:
 
     docker-compose up
 
