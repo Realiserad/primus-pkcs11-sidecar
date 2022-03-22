@@ -1,4 +1,4 @@
-FROM artifactory.primekey.com/con-develop-container/primekey/hsm-driver-base
+FROM registry.primekey.com/primekey/hsm-driver-base:0.4.20-29
 
 LABEL maintainer="Bastian Fredriksson"
 
