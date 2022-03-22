@@ -21,7 +21,7 @@ Build
 
 2. Run the following command to build the container:
 ```
-    docker build -t realiserad/primus-pkcs11-sidecar .
+docker build -t realiserad/primus-pkcs11-sidecar .
 ```
 
 Run
@@ -35,16 +35,16 @@ The ``configuration`` folder should be made available to the container using a v
 
 2. Edit ``docker-compose.yml`` and type in the credentials you received from Securosys. For example:
 ```
-    hsm-driver:
-        environment:
-            - SETUP_PASSWORD=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
-            - HSM_USER=PRIMUS123
-            - PKCS11_PASSWORD=PRIMUS
+hsm-driver:
+    environment:
+        - SETUP_PASSWORD=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+        - HSM_USER=PRIMUS123
+        - PKCS11_PASSWORD=PRIMUS
 ```
 
 3. Run the container with EJBCA Enterprise using Docker Compose:
 ```
-    docker-compose up
+docker-compose up
 ```
 
 Test
@@ -52,7 +52,7 @@ Test
 
 Run the following command inside the EJBCA container::
 ```
-    /opt/primekey/bin/p11ng-cli.sh showinfo --lib-file /opt/primekey/p11proxy-client/p11proxy-client.so
+/opt/primekey/bin/p11ng-cli.sh showinfo --lib-file /opt/primekey/p11proxy-client/p11proxy-client.so
 ```
 
 Limitations
@@ -71,21 +71,21 @@ This is achieved by sourcing the environment variables ``PKCS11_PASSWORD`` and `
 
 Here is a sample configuration:
 ```
-    spec:
-        template:
-            metadata:
-                annotations:
-                    vault.hashicorp.com/agent-inject: "true"
-                    vault.hashicorp.com/agent-init-first: "true"
-                    vault.hashicorp.com/role: "hsm"
-                    vault.hashicorp.com/agent-inject-secret-pkcs11-password: "hsm/data/pkcs11-password"
-                    vault.hashicorp.com/agent-inject-template-pkcs11-password: |
-                        {{- with secret "hsm/data/pkcs11-password" -}}
-                        export PKCS11_PASSWORD="{{ .Data.data.pkcs11_password }}"
-                        {{- end }}
-                    vault.hashicorp.com/agent-inject-secret-setup-password: "hsm/data/setup-password"
-                    vault.hashicorp.com/agent-inject-template-setup-password: |
-                        {{- with secret "hsm/data/setup-password" -}}
-                        export SETUP_PASSWORD="{{ .Data.data.setup-password }}"
-                        {{- end }}
+spec:
+    template:
+        metadata:
+            annotations:
+                vault.hashicorp.com/agent-inject: "true"
+                vault.hashicorp.com/agent-init-first: "true"
+                vault.hashicorp.com/role: "hsm"
+                vault.hashicorp.com/agent-inject-secret-pkcs11-password: "hsm/data/pkcs11-password"
+                vault.hashicorp.com/agent-inject-template-pkcs11-password: |
+                    {{- with secret "hsm/data/pkcs11-password" -}}
+                    export PKCS11_PASSWORD="{{ .Data.data.pkcs11_password }}"
+                    {{- end }}
+                vault.hashicorp.com/agent-inject-secret-setup-password: "hsm/data/setup-password"
+                vault.hashicorp.com/agent-inject-template-setup-password: |
+                    {{- with secret "hsm/data/setup-password" -}}
+                    export SETUP_PASSWORD="{{ .Data.data.setup-password }}"
+                    {{- end }}
 ```
