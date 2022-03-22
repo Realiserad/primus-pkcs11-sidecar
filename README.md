@@ -20,8 +20,9 @@ Build
 1. Put the file ``PrimusAPI_PKCS11-X-1.7.36-rhel8-x86_64.tar.gz`` in the same folder as the Dockerfile.
 
 2. Run the following command to build the container:
-
+```
     docker build -t realiserad/primus-pkcs11-sidecar .
+```
 
 Run
 ===
@@ -33,23 +34,26 @@ The ``configuration`` folder should be made available to the container using a v
 1. Edit the configuration file ``configuration/configuration.json`` and specify the partition and HSMs to use.
 
 2. Edit ``docker-compose.yml`` and type in the credentials you received from Securosys. For example:
-
+```
     hsm-driver:
         environment:
             - SETUP_PASSWORD=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
             - HSM_USER=PRIMUS123
             - PKCS11_PASSWORD=PRIMUS
+```
 
 3. Run the container with EJBCA Enterprise using Docker Compose:
-
+```
     docker-compose up
+```
 
 Test
 ====
 
 Run the following command inside the EJBCA container::
-
+```
     /opt/primekey/bin/p11ng-cli.sh showinfo --lib-file /opt/primekey/p11proxy-client/p11proxy-client.so
+```
 
 Limitations
 ===========
@@ -66,7 +70,7 @@ The container can read secrets (PKCS#11 password and HSM setup password) from Ha
 This is achieved by sourcing the environment variables ``PKCS11_PASSWORD`` and ``SETUP_PASSWORD`` from ``/vault/secrets`` at container boot.
 
 Here is a sample configuration:
-
+```
     spec:
         template:
             metadata:
@@ -84,3 +88,4 @@ Here is a sample configuration:
                         {{- with secret "hsm/data/setup-password" -}}
                         export SETUP_PASSWORD="{{ .Data.data.setup-password }}"
                         {{- end }}
+```
